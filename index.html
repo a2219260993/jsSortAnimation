@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .bigBox {
+            width: 1000px;
+            height: 600px;
+            margin: 50px auto;
+            background-color: pink;
+        }
+
+        .animateBox {
+            margin: 50px;
+            margin-bottom: 0;
+            width: 900px;
+            height: 500px;
+            background-color: salmon;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .animateBox div {
+            width: 100px;
+            /* height: 100px; */
+            margin: 0 10px;
+            /* background-color: plum; */
+
+        }
+
+        /* 正常 */
+        .normal {
+            background-color: rgba(98, 231, 202, 0.747);
+        }
+
+        /* 目标 */
+        .target {
+            background-color: orange;
+        }
+
+        /* 选中 */
+        .choose {
+            rgba(224, 39, 215, 0.774);
+        }
+
+        .input {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bigBox">
+        <div class="animateBox">
+            <!-- <div class="div" data-value="10"></div>
+            <div class="div"></div>
+            <div class="div"></div>
+            <div class="div"></div>
+            <div class="div"></div>
+            <div class="div"></div>
+            <div class="div"></div> -->
+        </div>
+        <!-- 弹性布局 可以输入很多个数 -->
+        <div class="input">请输入需要排序的数（用空格分开,0不参与排序）<input type="text" name="" id=" "><button class="btn1">确定</button><br>
+            <button class="btn2">冒泡排序</button>
+            <button class="btn3">选择排序</button>
+            <button class="btn4">插入排序</button>
+        </div>
+    </div>
+
+    <script>
+        var div = document.querySelector('.animateBox');
+        var divs = [];
+        var input = document.querySelector('input');
+        // var x = 200 * 5;
+        var arr = [1, 2, 3, 5, 4];
+        var btn1 = document.querySelector('.btn1');
+        var btn2 = document.querySelector('.btn2');
+        var btn3 = document.querySelector('.btn3');
+        var btn4 = document.querySelector('.btn4');
+        btn1.onclick = function () {
+            // console.log(input.value);
+            // div.innerHTML = '';
+            // arr = input.value.split(' ');
+            // arr = arr.map(Number);
+            var max = arr.reduce((a, b) => Math.max(a, b)); //利用reduce返回数组最大值
+            // console.log(max);
+            for (let i = 0; i < arr.length; i++) {
+                // console.log(arr[i]);
+                if (arr[i] === 0)
+                    continue;
+                var box = document.createElement('div');
+                box.innerHTML = arr[i];
+                box.className = 'normal';
+                box.style.height = arr[i] / max * 180 + 20 + 'px'; //记住就行了
+                box.style.order = 999;
+                div.appendChild(box);
+            }
+            divs = div.querySelectorAll('div');
+            // console.log(divs);
+            // console.log(divs[2].innerHTML);
+        }
+        btn2.onclick = function () {
+            var index = 0; //当前选中
+            var j = 1;
+            var i = 0;
+            divs[i].className = 'target';
+            divs[j].className = 'target';
+            var timer = setInterval(function () {
+                console.log(11);
+                if (i !== arr.length - 1) {
+                    if (j !== arr.length - 1) {
+                        if (arr[j] < arr[index]) {
+                            divs[index].className = 'choose';
+                        }
+                        divs[j].className = 'normal';
+                        j++;
+                        divs[j].className = 'target';
+                    }
+                }
+
+            }, 1000) //定时器
+        }
+        btn3.onclick = function () {
+
+        }
+        btn4.onclick = function () {
+
+        }
+    </script>
+</body>
+
+</html>
