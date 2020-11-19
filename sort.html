@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .bigBox {
+            width: 1000px;
+            height: 600px;
+            margin: 50px auto;
+            background-color: pink;
+        }
+
+        .animateBox {
+            margin: 50px;
+            margin-bottom: 0;
+            width: 900px;
+            height: 500px;
+            background-color: salmon;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .animateBox div {
+            width: 100px;
+            /* height: 100px; */
+            margin: 0 10px;
+            /* background-color: plum; */
+
+        }
+
+        /* 正常 */
+        .normal {
+            background-color: rgba(98, 231, 202, 0.747);
+        }
+
+        /* 目标 */
+        .target {
+            background-color: orange;
+        }
+
+        /* 选中 */
+        .choose {
+            background-color: rgba(224, 39, 215, 0.774);
+        }
+
+        .input {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="bigBox">
+        <div class="animateBox">
+
+        </div>
+        <!-- 弹性布局 可以输入很多个数 -->
+        <div class="input">请输入需要排序的数（用空格分开，请勿输入多余的空格）<br>默认数组为： [5, 3, 2, 5, 8, 6, 8, 4, 1] <br>
+            <input type="text" name="" id=" " placeholder=""><button class="btn1">确定</button><br>
+            <button class="btn2">选择排序</button>
+            <button class="btn3">冒泡排序</button>
+            <button class="btn4">插入排序</button>
+        </div>
+    </div>
+    <!-- <script src="sortAnimate.js"></script> -->
+    <script>
+        var div = document.querySelector('.animateBox');
+        var divs = [];
+        var input = document.querySelector('input');
+        // var x = 200 * 5;
+        var arr = [5, 3, 2, 5, 8, 6, 8, 4, 1];
+        // var arrr = [];
+        var btn1 = document.querySelector('.btn1');
+        var btn2 = document.querySelector('.btn2'); //选择
+        var btn3 = document.querySelector('.btn3'); //冒泡
+        var btn4 = document.querySelector('.btn4'); //插入
+        var max = 0;
+        //btn1用于输入数据
+        btn1.onclick = function () {
+            // console.log(input.value);
+            div.innerHTML = '';
+            if (input.value !== '') {
+                arr = input.value.split(' ');
+                arr = arr.map(Number);
+            } else {
+                arr = [5, 3, 2, 5, 8, 6, 8, 4, 1];
+            }
+            max = arr.reduce((a, b) => Math.max(a, b)); //利用reduce返回数组最大值
+            for (let i = 0; i < arr.length; i++) {
+                var box = document.createElement('div');
+                box.innerHTML = arr[i];
+                box.className = 'normal';
+                box.style.height = arr[i] / max * 180 + 20 + 'px'; //记住就行了
+
+                div.appendChild(box);
+
+            }
+            divs = div.querySelectorAll('div');
+        }
+
+        function* chooseSort() {
+            let index;
+            for (let i = 0; i < arr.length; i++) {
+                index = i;
+                divs[i].className = 'target';
+                for (let j = i + 1; j < arr.length; j++) {
+                    divs[j].className = 'target';
+                    yield 1;
+                    if (arr[j] < arr[index]) {
+                        if (index !== i) {
+                            divs[index].className = 'normal'
+                        }
+                        divs[index].className
+                        index = j;
+                        divs[index].className = 'choose';
+                    } else {
+                        divs[j].className = 'normal';
+                    }
+                }
+                swap(i, index);
+            }
+            return 0;
+        }
+
+        function* bulubuluSort() {
+            for (let i = 1; i < arr.length; i++) {
+                for (let j = 0; j < arr.length - i; j++) {
+                    divs[j].className = 'target';
+                    divs[j + 1].className = 'target';
+                    yield 1;
+                    if (arr[j] > arr[j + 1]) {
+                        swap(j, j + 1);
+                    } else {
+                        divs[j].className = 'normal';
+                    }
+                }
+            }
+            return 0;
+        }
+
+        function* intSort() {
+            let index;
+            let now;
+            for (let i = 1; i < arr.length; i++) {
+                index = i - 1;
+                now = i;
+                while (index >= 0) {
+                    divs[index].className = 'target';
+                    divs[now].className = 'target';
+                    yield 1; //暂停
+                    if (arr[now] < arr[index]) {
+                        swap(index, now);
+                    } else {
+                        divs[index].className = 'normal';
+                        divs[now].className = 'normal';
+                        break;
+                    } //因为前面的数组已经排好序，如果要插入的数比前面的大 则不需要再往前比较了
+                    index--;
+                    now--;
+                }
+            }
+            return 0; //结束了
+        }
+
+        btn2.onclick = function () {
+            clearInterval(timer);
+            var Sort = chooseSort();
+            var timer = setInterval(() => {
+                if (Sort.next().done) {
+                    clearInterval(timer);
+                }
+
+            }, 100);
+        }
+
+        btn3.onclick = function () {
+            clearInterval(timer);
+            var Sort = bulubuluSort();
+            var timer = setInterval(function () {
+                if (Sort.next().done) {
+                    clearInterval(timer);
+                }
+
+            }, 300);
+        }
+
+        btn4.onclick = function () {
+            clearInterval(timer);
+            var sort = intSort();
+            var timer = setInterval(function () {
+                if (sort.next().done) {
+                    clearInterval(timer);
+                }
+
+            }, 1000);
+        }
+
+
+        function swap(a, b) {
+            let t;
+            t = arr[a];
+            arr[a] = arr[b];
+            arr[b] = t;
+            divs[b].style.height = arr[b] / max * 180 + 20 + 'px';
+            divs[b].innerHTML = arr[b];
+            divs[a].style.height = arr[a] / max * 180 + 20 + 'px';
+            divs[a].innerHTML = arr[a];
+            divs[a].className = 'normal';
+            divs[b].className = 'normal';
+            //交换arr数组，交换其中的高度，并将其转换为正常颜色
+            // divs = div.querySelectorAll('div');
+        } //排序
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button>111</button>
+    <script>
+        function* its(i) {
+            // console.log('生成器启动了');
+            for (let j = 0; j <= i; j++) {
+                yield j;
+            }
+            return console.log('231232');;
+        }
+        // var its = its(20);
+        var but = document.querySelector('button');
+        but.onclick = function () {
+            
+        }
+    </script>
+</body>
+
+</html>
