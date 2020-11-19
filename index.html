@@ -142,21 +142,33 @@
                             if (divs[index].className === 'choose') {
                                 divs[index].className = 'normal';
                             }
-                            divs[j].className = 'choose';
+                            if (divs[j]) {
+                                divs[j].className = 'choose';
+                            }
                             index = j++;
-                            divs[j].className = 'target';
+                            if (divs[j]) {
+                                divs[j].className = 'target';
+                            }
                         } else {
-                            divs[j].className = 'normal';
+                            if (divs[j]) {
+                                divs[j].className = 'normal';
+                            }
                             j++;
-                            divs[j].className = 'target';
+                            if (divs[j]) {
+                                divs[j].className = 'target';
+                            }
                         }
                     } else {
                         swap(i, index);
                         i++;
                         index = i;
-                        divs[i].className = 'target';
+                        if (divs[i]) {
+                            divs[i].className = 'target';
+                        }
                         j = i + 1;
-                        divs[j].className = 'target';
+                        if (divs[j]) {
+                            divs[j].className = 'target';
+                        }
                     }
                 } else {
                     clearInterval(timer);
