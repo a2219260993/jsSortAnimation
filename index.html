@@ -189,15 +189,27 @@
                         if (arr[j] >= arr[j + 1]) {
                             swap(j, j + 1);
                             j++;
-                            divs[j].className = 'target';
-                            divs[j + 1].className = 'target';
+                            if (divs[j]) {
+                                divs[j].className = 'target';
+                            }
+                            if (divs[j + 1]) {
+                                divs[j + 1].className = 'target';
+                            }
 
                         } else {
-                            divs[j].className = 'normal';
-                            divs[j + 1].className = 'normal';
+                            if (divs[j]) {
+                                divs[j].className = 'normal';
+                            }
+                            if (divs[j + 1]) {
+                                divs[j + 1].className = 'normal';
+                            }
                             j++;
-                            divs[j].className = 'target';
-                            divs[j + 1].className = 'target';
+                            if (divs[j]) {
+                                divs[j].className = 'target';
+                            }
+                            if (divs[j + 1]) {
+                                divs[j + 1].className = 'target';
+                            }
                         }
                     } else {
                         i++;
@@ -227,22 +239,38 @@
                         if (arr[j] < arr[j - 1]) {
                             swap(j, j - 1);
                             j--;
-                            divs[j].className = 'target';
-                            divs[j - 1].className = 'target';
+                            if (divs[j]) {
+                                divs[j].className = 'target';
+                            }
+                            if (divs[j - 1]) {
+                                divs[j - 1].className = 'target';
+                            }
                         } else {
-                            divs[j].className = 'normal';
-                            divs[j - 1].className = 'normal';
+                            if (divs[j]) {
+                                divs[j].className = 'normal';
+                            }
+                            if (divs[j - 1]) {
+                                divs[j - 1].className = 'normal';
+                            }
                             i++;
                             j = i + 1;
-                            divs[j].className = 'target';
-                            divs[j - 1].className = 'target';
+                            if (divs[j]) {
+                                divs[j].className = 'target';
+                            }
+                            if (divs[j - 1]) {
+                                divs[j - 1].className = 'target';
+                            }
                         }
                     } else {
                         divs[0].className = 'normal';
                         i++;
                         j = i + 1;
-                        divs[j].className = 'target';
-                        divs[j - 1].className = 'target';
+                        if (divs[j]) {
+                            divs[j].className = 'target';
+                        }
+                        if (divs[j - 1]) {
+                            divs[j - 1].className = 'target';
+                        }
                     }
                 } else {
                     clearInterval(timer);
